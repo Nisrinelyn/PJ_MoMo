@@ -4,44 +4,7 @@ const RB=ReactBootstrap;
 const {Alert, Card, Button, Table} = ReactBootstrap;
 
 
-function StudentTable({data, app}) {
-  return (
-    <table className='table'>
-      <thead>
-        <tr>
-          <th>รหัศ</th>
-          <th>ชื่อ</th>
-          <th>สกุล</th>
-          <th>Email</th>
-          <th>วันที่เช็คชื่อ</th>
-          <th>วิชา</th>
-          <th>ห้อง</th>
-          <th>แก้ไข</th>
-          <th>ลบ</th>
-        </tr>
-      </thead>
-      <tbody>
-        {data.map((s) => (
-          <tr key={s.id}>
-            <td>{s.id}</td>
-            <td>{s.fname}</td>
-            <td>{s.lname}</td>
-            <td>{s.email}</td>
-            <td>{s.class_date}</td>
-            <td>{s.subject}</td>
-            <td>{s.room}</td>
-            <td><EditButton std={s} app={app}/></td>
-            <td><DeleteButton std={s} app={app}/></td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  );
-}
-
-
-
-  function TextInput({label,app,value,style}){
+function TextInput({label,app,value,style}){
     return <label className="form-label">
     {label}:    
      <input className="form-control" style={style}
@@ -52,13 +15,11 @@ function StudentTable({data, app}) {
      }></input>
    </label>;  
   }
-  function EditButton({std,app}){
-    return <button onClick={()=>app.edit(std)}>แก้ไข</button>
-   }
+  
 
-   function DeleteButton({std,app}){    
-    return <button onClick={()=>app.delete(std)}>ลบ</button>
-  }
+
+
+  
 
  
 
@@ -83,7 +44,6 @@ class App extends React.Component {
       </Alert>
     );
     //style={{ backgroundColor: "#6A0DAD", color: "white" }}
-    
     state = {
         scene: 0,
         students:[],
@@ -102,33 +62,7 @@ class App extends React.Component {
 
     
 
-    autoRead2() {
-      db.collection("check").onSnapshot((querySnapshot) => {
-        const checkinData = [];
-        querySnapshot.forEach((doc) => {
-          checkinData.push({ id: doc.id, ...doc.data() });
-        });
     
-        const studentsPromises = checkinData.map((check) => {
-          return db.collection("students").doc(check.id).get();
-        });
-    
-        Promise.all(studentsPromises)
-          .then((studentSnapshots) => {
-            const students = studentSnapshots.map((snapshot, index) => {
-              const studentData = snapshot.data();
-              return {
-                ...studentData,
-                ...checkinData[index], // เพิ่มข้อมูลการเช็คชื่อลงในข้อมูลของนักศึกษา
-              };
-            });
-            this.setState({ students: students });
-          })
-          .catch((error) => {
-            console.error("เกิดข้อผิดพลาดในการอ่านข้อมูลนักศึกษา ", error);
-          });
-      });
-    }
     
     
     insertData(){
@@ -148,20 +82,17 @@ class App extends React.Component {
         
         })
      }
-     delete(std){
-        if(confirm("ต้องการลบข้อมูล")){
-           db.collection("students").doc(std.id).delete();
-           db.collection("check").doc(std.id).delete();
-        }
-    }
-
-    checkStudentAttendance() {
+     
+   
+      
+      checkStudentAttendance() {
         const stdCheckId = this.state.stdCheckId;
         db.collection("students").doc(stdCheckId).get().then((doc) => {
           if (doc.exists) {
             // นักศึกษาพบ
             const studentData = doc.data();
             const studentName = studentData.fname + " " + studentData.lname;
+            
             const currentDate = new Date().toLocaleDateString();
             
             // ทำการเช็คชื่อใน collection checkin
@@ -171,7 +102,9 @@ class App extends React.Component {
               class_date: currentDate,
               id: stdCheckId
             }).then(() => {
-              alert(`ชื่อ ${studentName} `);
+              // แสดง pop up โดยผ่าน alert
+              alert(`รหัสนักศึกษา: ${stdCheckId}, ชื่อ-สกุล: ${studentName}`);
+              
               // อัปเดต state หรือทำการอื่น ๆ ตามต้องการ
             }).catch((error) => {
               console.error("เกิดข้อผิดพลาดในการเช็คชื่อ ", error);
@@ -184,10 +117,33 @@ class App extends React.Component {
           console.error("เกิดข้อผิดพลาดในการค้นหาข้อมูลนักศึกษา ", error);
         });
       }
+      
       // เมื่อคลาส App ถูกโหลด ให้ดึงคำถามจาก Firestore และเซ็ต state
 
 
     // ฟังก์ชันเพิ่มคำถามลงใน Firestore
+    /*
+  addQuestionToDatabase = () => {
+    const newQuestion = this.state.newQuestion;
+    db.collection("questions")
+      .add({ question: newQuestion })
+      .then(() => {
+        alert("เพิ่มคำถามเรียบร้อยแล้ว");
+        // เมื่อเพิ่มคำถามลงในฐานข้อมูลเรียบร้อยแล้ว ทำการเคลียร์ค่าคำถามใน state
+        this.setState({ newQuestion: "" });
+      })
+      .catch((error) => {
+        console.error("เกิดข้อผิดพลาดในการเพิ่มคำถามในฐานข้อมูล: ", error);
+      });
+  };
+  */
+
+  // เมื่อคลาส App ถูกโหลด ให้ดึงคำถามจาก Firestore และเซ็ต state
+  componentDidMount() {
+    this.fetchQuestionsFromDatabase();
+  }
+
+  // ฟังก์ชันเพิ่มคำถามลงใน Firestore
   addQuestionToDatabase = () => {
     const newQuestion = this.state.newQuestion;
     db.collection("questions")
@@ -237,6 +193,7 @@ class App extends React.Component {
         console.error("เกิดข้อผิดพลาดในการเพิ่มคำตอบในฐานข้อมูล: ", error);
       });
   };
+
 
       
  
