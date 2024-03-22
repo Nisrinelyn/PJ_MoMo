@@ -2,6 +2,7 @@
 const RB=ReactBootstrap;
 const {Alert, Card, Button, Table} = ReactBootstrap;
 
+
 function StudentTable({data, app}) {
   return (
     <table className='table'>
@@ -113,7 +114,7 @@ class App extends React.Component {
         }));
       };
     title = (
-      <Alert variant="info">
+      <Alert variant="info" style={{ backgroundColor: '#350948', color: 'white' }} >
         <b>สำหรับอาจารย์/ผู้สอน</b>
       </Alert>
     );
@@ -296,14 +297,16 @@ class App extends React.Component {
 
             
 
-            <TextInput label="กรอกรหัสเพื่อเช็คชื่อ" app={this} value="stdCheckId" style={{width:120}}/><br/>
+            <TextInput label="กรอกรหัสเพื่อเช็คชื่อ" app={this} value="stdCheckId" style={{width:120, backgroundColor:'lavender'}}/><br/>
             <Button onClick={()=>this.checkStudentAttendance()} style={{ backgroundColor: '#560f74' }}>ยืนยัน</Button>
             
             <br></br>
-            <div>
-        
-        <Button onClick={()=>this.autoRead()}>รายชื่อทั้งหมด</Button>
-              <Button onClick={()=>this.autoRead2()}>ดูรายชื่อนักศึกษาที่เช็คชื่อแล้ว</Button>
+            <div >
+        <p></p>
+        <br></br>
+        <Button onClick={()=>this.autoRead()} style={{ backgroundColor: '#D1B2FF', color: 'black', border: '2px solid black', display: 'flex', justifyContent: 'flex-start'}}>รายชื่อทั้งหมด </Button>
+        <br></br>
+              <Button onClick={()=>this.autoRead2()} style={{ backgroundColor: '#D1B2FF', color: 'black', border: '2px solid black', display: 'flex',justifyContent: 'flex-start' }}>ดูรายชื่อนักศึกษาที่เช็คชื่อแล้ว</Button>
               <div>
               <StudentTable data={this.state.students} app={this}/>  
         
