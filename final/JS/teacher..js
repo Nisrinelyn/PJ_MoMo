@@ -15,6 +15,7 @@ function StudentTable({data, app}) {
           <th>วิชา</th>
           <th>ห้อง</th>
           <th>กลุ่ม</th>
+          <th>แก้ไข</th>
           <th>ลบ</th>
     
         </tr>
@@ -30,6 +31,7 @@ function StudentTable({data, app}) {
             <td>{s.subject}</td>
             <td>{s.room}</td>
             <td>{s.section}</td>
+            <td><EditButton std={s} app={app}/></td>
             <td><DeleteButton std={s} app={app}/></td>
           </tr>
         ))}
@@ -91,24 +93,7 @@ function AnswerTable({ answers }) {
     );
   }
   
-  function QuestionTable({ questions }) {
-    return (
-      <table className="table">
-        <thead>
-          <tr>
-            <th>คำถาม</th>
-          </tr>
-        </thead>
-        <tbody>
-          {questions.map((question) => (
-            <tr key={question.id}>
-              <td>{question.question}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    );
-  }
+  
   
 
  
@@ -118,13 +103,12 @@ function AnswerTable({ answers }) {
 class App extends React.Component {
 
     state = {
-        showAllQuestions: false,
+        showQuestions: false,
         questions: [],
         // เพิ่ม state สำหรับเก็บข้อมูลคำถามทั้งหมด
       };
 
-      showAllQuestions = () => {
-        // อ่านข้อมูลคำถามทั้งหมดจาก Firebase
+      showQuestionsFromDatabase = () => {
         db.collection("questions")
           .get()
           .then((querySnapshot) => {
@@ -132,12 +116,14 @@ class App extends React.Component {
             querySnapshot.forEach((doc) => {
               questions.push({ id: doc.id, ...doc.data() });
             });
-            this.setState({ questions: questions, showAllQuestions: true });
+            console.log("ข้อมูลคำถาม:", questions); // ให้แสดงข้อมูลคำถามในคอนโซลเพื่อตรวจสอบ
+            this.setState({ questions: questions, showQuestions: true });
           })
           .catch((error) => {
-            console.error("เกิดข้อผิดพลาดในการอ่านคำถามทั้งหมด: ", error);
+            console.error("เกิดข้อผิดพลาดในการอ่านคำถามจากฐานข้อมูล: ", error);
           });
       };
+      
           
         
     // ฟังก์ชันสำหรับการคลิกปุ่มแสดง/ซ่อนข้อมูลของ Card.Footer
@@ -331,7 +317,7 @@ class App extends React.Component {
             <Card style={{ textAlign: "center" }}>
             <Card.Header>{this.title}</Card.Header>
             <Card.Body>
-                
+            
 
             
 
@@ -342,7 +328,7 @@ class App extends React.Component {
             <div>
         
         <Button onClick={()=>this.autoRead()}>รายชื่อทั้งหมด</Button>
-              <Button onClick={()=>this.autoRead2()}>รายชื่อที่เช็คชื่อแล้ว</Button>
+              <Button onClick={()=>this.autoRead2()}>ดูรายชื่อนักศึกษาที่เช็คชื่อแล้ว</Button>
               <div>
               <StudentTable data={this.state.students} app={this}/>  
         
@@ -370,7 +356,16 @@ class App extends React.Component {
 
             <Card.Footer style={{ textAlign: "center" }}>
 
-
+            <Button onClick={this.showQuestionsFromDatabase}>แสดงคำถาม</Button>
+          {this.state.showQuestions && (
+            <div>
+              <h3>คำถามจากฐานข้อมูล</h3>
+              <QuestionTable questions={this.state.questions} />
+            </div>
+          )}
+<p></p>
+<p></p>
+<br></br>
             <Button onClick={this.toggleFooterContent2} style={{ backgroundColor: '#f2d7fe', color: 'black' }}>
   {this.state.showFooterContent2 ? 'ซ่อนการเพิ่มคำถาม' : 'เพิ่มคำถาม'}
 </Button>
