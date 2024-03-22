@@ -1,11 +1,10 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Work6 Vue</title>
+    <title>student_login</title>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/vuetify@3.4.10/dist/vuetify.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/vuetify@3.4.10/dist/vuetify.min.js"></script>
@@ -14,9 +13,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
 
     <style>
-        .v-container {
-            background-color: #e3ecf0;
-        }
+        
         
         #app {
             width: 100%;
@@ -26,43 +23,52 @@
         
         
         .lavender-container {
-            background-color: #e3ecf0;
+            background-color: #dcc3fb;
         }
         
         .light-pur {
-            background-color: #e3ecf0
+            background-color: #dbcae1
         }
         
         .pink {
-            background-color: #dacd1f;
+            background-color: #5c1475;
         }
         
-        .very-light {
-            background-color: rgb(225, 240, 245)
-        }
+    
         
         .dark {
-            color: #ffff;
-            background-color:#6f97d3;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .title-container {
     display: flex;
     justify-content: space-between;
+    text-align: center;
+    color: beige;
     align-items: center;
-    background-color: #6f97d3; /* เพิ่มสีพื้นหลัง */
-    padding: 10px; /* เพิ่ม padding เพื่อเพิ่มระยะห่างระหว่างเนื้อหาและขอบ */
+    background-color: #655175; /* เพิ่มสีพื้นหลัง */
+    padding: 20px; /* เพิ่ม padding เพื่อเพิ่มระยะห่างระหว่างเนื้อหาและขอบ */
 }
 
 
         .title-buttons {
             display: flex;
             align-items: center;
+            text-align: center;
         }
 
         .title-buttons > * {
-            margin-left: 10px;
+            display: flex;
+            align-items: center;
+            text-align: center;
         }
+        .dark{
+      color: #ffffff;
+      background-color: #560f74;
+    }
+        
     </style>
 </head>
 
@@ -75,16 +81,19 @@
                 <div class="title-container">
                     <v-card-title class="dark">{{ title }}</v-card-title>
 
-                    <div class="title-buttons">
-                        <v-btn @click="google_login()" v-if="!user" class="pink" style="color: white;">Login</v-btn>
-                        <v-btn @click="google_logout()" v-if="user" class="pink" style="color: white;">Logout</v-btn>
-                    </div>
+                    
                 </div>
 
                 <v-card>
-                    <img src="/img/ตา.png" style="max-width: 100%; max-height: 100%;">
                     <v-card-text class="pa-6">
                         <v-card-actions>
+
+                            <div class="title-buttons d-flex justify-content-center">
+                                <v-btn @click="google_login()" v-if="!user" class="pink" style="color: rgb(255, 255, 255); font-size: 24px;">Login</v-btn>
+                                <v-btn @click="google_logout()" v-if="user" class="pink" style="color: rgb(255, 255, 255); font-size: 24px;">Logout</v-btn>
+                            </div>
+                            
+
                             <template v-if="user">
                                 <div class="pa-2">
                                     <v-avatar><img :src="user.photoURL" /></v-avatar>
@@ -93,7 +102,14 @@
                                     {{user.displayName}}<br />
                                     {{user.email}}<br />
                                 </div>
+                                
+                                <div>
+                                    <h1 :style="{ color: 'white' }">{{ title }}</h1>
+                                  </div>
+
                             </template>
+
+                            
                         </v-card-actions>
                         <br/>
                         <br/>
@@ -103,18 +119,13 @@
                         </table>
                     </v-card-text>
                 </v-card>
+                
 
-                <v-card v-if="editmode" class="very-light">
-                    <v-card-text class="pa-6"></v-card-text>
-
-                    <div style="display: flex; justify-content: center;">
-                        <img src="Cute/bear.jpg" style="width: 15%;" />
-                    </div>
-                    <div class="pa-6 text-center">
-                        {{footer}}
-                    </div>
-                </v-card>
+        
             </v-container>
+            <div style="display: flex; justify-content: center;">
+                <v-btn href="index.html" class="dark">BACK TO HOME</v-btn>
+              </div>
         </v-app>
     </div>
 
@@ -122,14 +133,14 @@
         // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyDPLxYlmftECuBVTRlLHKnTOYLO8Pcziww",
-  authDomain: "final-9bcc1.firebaseapp.com",
-  projectId: "final-9bcc1",
-  storageBucket: "final-9bcc1.appspot.com",
-  messagingSenderId: "293950824290",
-  appId: "1:293950824290:web:ec740fe50766813adc163b",
-  measurementId: "G-MV16NHPEB2"
-};
+    apiKey: "AIzaSyD6rz5gGWak1SsVY9HgYJnZ2Xo83ejzdvs",
+    authDomain: "test-8517b.firebaseapp.com",
+    projectId: "test-8517b",
+    storageBucket: "test-8517b.appspot.com",
+    messagingSenderId: "910179285225",
+    appId: "1:910179285225:web:012ec239ff32decc25d878",
+    measurementId: "G-CCWS2Z3W9B"
+  };
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
@@ -138,8 +149,8 @@ const firebaseConfig = {
         const app = Vue.createApp({
             data() {
                 return {
-                    title: "Work 6 : เรียกใช้ฐานข้อมูล Firebase ด้วย VueJS",
-                    footer: "643021429-3 Marisa Pinkaew",
+                    title: "เข้าสู่ระบบสำหรับอาจารย์/ผู้สอน",
+                    footer: "college of computing ",
                     students: [],
                     editstd: {},
                     editmode: 0,
@@ -166,7 +177,7 @@ const firebaseConfig = {
                     firebase.auth().signInWithPopup(provider)
                         .then(() => {
                             // Redirect to students.html
-                            window.location.href = "final.html";
+                            window.location.href = "teacher.html";
                         })
                         .catch(error => {
                             console.error(error);
@@ -174,12 +185,12 @@ const firebaseConfig = {
                 },
 
                 google_logout() {
-                    if (confirm("Are you sure?")) {
+                    if (confirm("คุณต้องการที่จะยืนยันการออกจากระบบใช่หรือไม่")) {
                         firebase.auth().signOut();
                     }
                 },
                 getstudent(email) {
-                    db.collection("students")
+                    db.collection("teacher")
                         .where("email", "==", email)
                         .limit(1)
                         .get()
