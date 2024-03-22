@@ -217,33 +217,37 @@ class App extends React.Component {
        
             {/* แสดงรายการคำถาม */}
             <div>
-                <br></br>
-                <b>คำถาม :</b>
-                <ul>
-                {this.state.questions.map((question) => (
-                    <li key={question.id}>
-                    {question.question}
-                    {/* เพิ่มฟอร์มสำหรับตอบคำถาม */}
-                    <input
-                        type="text"
-                        value={this.state[`answer_${question.id}`] || ""}
-                        onChange={(event) =>
+    <br></br>
+    <b>คำถาม :</b>
+    <ul>
+        {this.state.questions.map((question) => (
+            <li key={question.id}>
+                {question.question}
+                {/* เพิ่มฟอร์มสำหรับตอบคำถาม */}
+                <input
+                    type="text"
+                    value={this.state[`answer_${question.id}`] || ""}
+                    onChange={(event) =>
                         this.setState({
                             [`answer_${question.id}`]: event.target.value,
                         })
-                        }
-                    />
-                    <button
-                        onClick={() =>
+                    }
+                    style={{ backgroundColor: '#f2d7fe' }} // กำหนดสีพื้นหลังของช่อง input เป็นม่วงอ่อน
+                />
+                    
+                <button
+                    onClick={() =>
                         this.answerQuestion(question.id, this.state[`answer_${question.id}`])
-                        }
-                    >
-                        ตอบ
-                    </button>
-                    </li>
-                ))}
-                </ul>
-            </div>
+                    }
+                    style={{ backgroundColor: '#560f74', color: '#ffffff' }} // กำหนดสีของปุ่มเป็นสีม่วงเข้ม
+                >
+                    ตอบ
+                </button>
+            </li>
+        ))}
+    </ul>
+</div>
+
             
             
             </Card.Body>
