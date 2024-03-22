@@ -85,13 +85,7 @@ function AnswerTable({ answers }) {
   }
 
 
-  function ShowAllQuestionsButton({ onClick }) {
-    return (
-      <Button onClick={onClick} className="btn bg-pink">
-        คำถามทั้งหมด
-      </Button>
-    );
-  }
+  
   
   
   
@@ -102,27 +96,8 @@ function AnswerTable({ answers }) {
 
 class App extends React.Component {
 
-    state = {
-        showQuestions: false,
-        questions: [],
-        // เพิ่ม state สำหรับเก็บข้อมูลคำถามทั้งหมด
-      };
-
-      showQuestionsFromDatabase = () => {
-        db.collection("questions")
-          .get()
-          .then((querySnapshot) => {
-            const questions = [];
-            querySnapshot.forEach((doc) => {
-              questions.push({ id: doc.id, ...doc.data() });
-            });
-            console.log("ข้อมูลคำถาม:", questions); // ให้แสดงข้อมูลคำถามในคอนโซลเพื่อตรวจสอบ
-            this.setState({ questions: questions, showQuestions: true });
-          })
-          .catch((error) => {
-            console.error("เกิดข้อผิดพลาดในการอ่านคำถามจากฐานข้อมูล: ", error);
-          });
-      };
+    
+      
       
           
         
@@ -356,16 +331,7 @@ class App extends React.Component {
 
             <Card.Footer style={{ textAlign: "center" }}>
 
-            <Button onClick={this.showQuestionsFromDatabase}>แสดงคำถาม</Button>
-          {this.state.showQuestions && (
-            <div>
-              <h3>คำถามจากฐานข้อมูล</h3>
-              <QuestionTable questions={this.state.questions} />
-            </div>
-          )}
-<p></p>
-<p></p>
-<br></br>
+            
             <Button onClick={this.toggleFooterContent2} style={{ backgroundColor: '#f2d7fe', color: 'black' }}>
   {this.state.showFooterContent2 ? 'ซ่อนการเพิ่มคำถาม' : 'เพิ่มคำถาม'}
 </Button>
