@@ -342,7 +342,7 @@ class App extends React.Component {
             <div>
         
         <Button onClick={()=>this.autoRead()}>รายชื่อทั้งหมด</Button>
-              <Button onClick={()=>this.autoRead2()}>ดูรายชื่อนักศึกษา</Button>
+              <Button onClick={()=>this.autoRead2()}>รายชื่อที่เช็คชื่อแล้ว</Button>
               <div>
               <StudentTable data={this.state.students} app={this}/>  
         
