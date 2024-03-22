@@ -70,6 +70,7 @@ class App extends React.Component {
            fname : this.state.stdfname,
            lname : this.state.stdlname,
            email : this.state.stdemail,
+           section : this.state.stdsection,
         });
     }
     edit(std){      
@@ -79,6 +80,7 @@ class App extends React.Component {
          stdfname : std.fname,
          stdlname : std.lname,
          stdemail : std.email,
+         stdsection : std.section,
         
         })
      }
@@ -257,7 +259,8 @@ class App extends React.Component {
       <TextInput label="รหัศนักศึกษา" app={this} value="stdid" style={{width:120}}/>  
       <TextInput label="ชื่อ" app={this} value="stdfname" style={{width:120}}/>
       <TextInput label="สกุล" app={this} value="stdlname" style={{width:120}}/>
-      <TextInput label="อีเมล" app={this} value="stdemail" style={{width:150}} />        
+      <TextInput label="อีเมล" app={this} value="stdemail" style={{width:150}} /> 
+      <TextInput label="กลุ่ม" app={this} value="stdsection" style={{width:150}} />        
       <Button onClick={()=>this.insertData()} style={{ backgroundColor: '#560f74' }}>บันทึก</Button>
     </div>
   )}
